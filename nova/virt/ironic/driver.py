@@ -36,7 +36,6 @@ import six.moves.urllib.parse as urlparse
 from tooz import hashring as hash_ring
 
 from nova.api.metadata import base as instance_metadata
-from nova import block_device
 from nova.compute import power_state
 from nova.compute import task_states
 from nova.compute import vm_states
@@ -419,14 +418,10 @@ class IronicDriver(virt_driver.ComputeDriver):
                                    preserve_ephemeral=None,
                                    block_device_info=None):
 
-        root_bdm = block_device.get_root_bdm(
-            virt_driver.block_device_info_get_mapping(block_device_info))
-        boot_from_volume = root_bdm is not None
         patch = patcher.create(node).get_deploy_patch(instance,
                                                       image_meta,
                                                       flavor,
-                                                      preserve_ephemeral,
-                                                      boot_from_volume)
+                                                      preserve_ephemeral)
 
         try:
             # FIXME(lucasagomes): The "retry_on_conflict" parameter was added
