@@ -420,14 +420,10 @@ class IronicDriver(virt_driver.ComputeDriver):
                                    preserve_ephemeral=None,
                                    block_device_info=None):
 
-        root_bdm = block_device.get_root_bdm(
-            virt_driver.block_device_info_get_mapping(block_device_info))
-        boot_from_volume = root_bdm is not None
         patch = patcher.create(node).get_deploy_patch(instance,
                                                       image_meta,
                                                       flavor,
-                                                      preserve_ephemeral,
-                                                      boot_from_volume)
+                                                      preserve_ephemeral)
 
         try:
             # FIXME(lucasagomes): The "retry_on_conflict" parameter was added
